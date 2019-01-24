@@ -7,7 +7,9 @@ function stringSplitter(str, separator) {
 		return [str]
 	}
 	else {
+		// Gets first part of string up till the separator
 		return [str.slice(0, str.indexOf(separator))]
+		// Combined with the next separated chunk(s) including an offset so the separator itself is not included
 			.concat(
 				stringSplitter(str.slice(str.indexOf(separator) + separator.length), separator)
 			)

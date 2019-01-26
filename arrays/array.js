@@ -7,7 +7,6 @@ class Array {
 		this._capacity = 0;
 		this.ptr = this.memory.allocate(this.length);
 		console.log();
-		console.log("ptr is: " + this.ptr);
 	}
 
 	_resize(size) {
@@ -19,6 +18,7 @@ class Array {
         this.memory.copy(this.ptr, oldPtr, this.length);
         this.memory.free(oldPtr);
         this._capacity = size;
+        console.log(this._capacity);
     }
     _addNewBlock() {
     	if (this.length >= this._capacity) {
@@ -34,7 +34,7 @@ class Array {
     	if (index < 0 || index >= this.length) {
     		throw new Error("index error");
     	}
-    	return this.memory.get(this.ptr + index);
+    	console.log(this.memory.get(this.ptr + index)  + " is at ptr: " + (this.ptr + index));
     }
     pop() {
     	if (this.length === 0) {
@@ -64,4 +64,42 @@ class Array {
     }
 }
 
-let arr = new Array();
+function main(){
+
+    //create an instance of the array class
+    let arr = new Array();
+
+    //add an item to the array
+    // for (let i = 0; i < Math.floor(Math.random() * 298); i++) {
+    // 	arr.push(Math.floor(Math.random() * 1277))
+    // }
+    arr.push(777);
+    arr.push(5);
+	arr.push(15);
+	arr.push(19);
+	arr.push(45);
+	arr.push(10);
+	arr.push(19);
+	arr.push(20);
+	arr.push(10);
+	arr.push(30);
+	arr.push(60);
+	arr.push(17);
+	arr.push(11231231230);
+
+
+    arr.pop();
+    arr.pop();
+    arr.pop();
+
+    let arrLength = arr.length;
+    for (let i = arrLength - 1; i >= 0; i--) {
+    	arr.remove(i);
+    }
+
+    arr.push(9182);
+    console.log(arr);
+
+    arr.get(0);
+}
+main();

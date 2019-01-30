@@ -167,6 +167,43 @@ class LinkedList {
 		}
 		else return false;
 	}
+	reverse() {
+		// if no first or second item
+		if (!this.head || !this.head.next) {
+			return null
+		}
+		// if only two items
+		else if (!this.head.next.next) {
+			this.head.next.next = this.head;
+			this.head = this.head.next;
+			this.head.next.next = null;
+		}
+		// original is needed so we can keep that updated to point to newFirstNodeNext
+		let originalFirstNode = this.head;
+		while(originalFirstNode.next) {
+			console.log(originalFirstNode.value);
+			this.swapNodes(originalFirstNode.next, originalFirstNode, originalFirstNode.next.next);
+			// Effectively iterates through the list as originalFirstNode is pushed further right, currNode will always be the 
+		}
+		return this.head;
+		// Example LL state as it is reversed
+		// 1, 2, 3, 4
+		// 2, 1, 3, 4
+		// 3, 2, 1, 4
+		// 4, 3, 2, 1
+		// Inputs to this.swapNodes() for each step
+		// 2, 1, 3
+		// 3, 1, 4
+		// 4, 1, null
+	}
+	swapNodes(newFirstNode, originalFirstNode, newFirstNodesOriginalNext) {
+		// first append newFirstNode to the front
+		newFirstNode.next = this.head;
+		// Keep the chain connected by connecting originalFirstNode and what was originalFirstNode.next.next
+		originalFirstNode.next = newFirstNodesOriginalNext;
+		// Set this.head to newFirstNode
+		this.head = newFirstNode;
+	}
 }
 
 
@@ -189,10 +226,11 @@ function main() {
 	SLL.insertBefore("Toad", "Hotdog");
 	SLL.remove("Boomer");
 
-	console.log(SLL.display());
-	console.log(SLL.size());
-	console.log(SLL.isEmpty());
-	console.log(SLL.findLast());
+	// console.log(SLL.display()); // Tauhida, Waluigi, whoa, Kat, Jones, Apollo, Athena, Helo, Toad, Hotdog, Husker
+	// console.log(SLL.size()); // 11
+	// console.log(SLL.isEmpty()); // false
+	// console.log(SLL.findLast()); // Husker
+	console.log(SLL.reverse()); // Husker, Hotdog, Toad, Helo, Athena, Apollo, Jones, Kat, whoa, Waluigi, Tauhida
 }
-// Tauhida, Waluigi, whoa, Kat, Jones Apollo, Athena, Helo, Toad, Hotdog, Husker
 main();
+

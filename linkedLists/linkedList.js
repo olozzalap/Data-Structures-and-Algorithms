@@ -16,14 +16,12 @@ class LinkedList {
 	}
 	insertLast(newValue) {
 		console.log("insertLast");
-		// list is empty
-		if (this.head === null) {
+		if (!this.head) {
 			return this.insertFirst(newValue);
 		}
 		let newLastNode = new _Node(newValue, null);
 		let nodeInList = this.head;
 		while (nodeInList.next !== null) {
-			console.log(nodeInList.value);
 			nodeInList = nodeInList.next;
 		}
 		nodeInList.next = newLastNode;
@@ -36,8 +34,7 @@ class LinkedList {
 		let currNode = this.head;
 		let prevNode = this.head;
 		while(currNode.value !== nodeKey) {
-			if (currNode.next === null) {
-				console.log(currNode);
+			if (!currNode.next) {
 				return null;
 			}
 			else {
@@ -46,7 +43,6 @@ class LinkedList {
 			}
 		}
 		prevNode.next = new _Node(newValue, currNode);
-		// console.log(this.head);
 	}
 	insertAfter(newValue, nodeKey) {
 		console.log("insertAfter");
@@ -56,8 +52,7 @@ class LinkedList {
 		let currNode = this.head;
 		let prevNode = this.head;
 		while(prevNode.value !== nodeKey) {
-			if (prevNode.next === null) {
-				console.log(currNode);
+			if (!prevNode.next) {
 				return null;
 			}
 			else {
@@ -66,7 +61,6 @@ class LinkedList {
 			}
 		}
 		prevNode.next = new _Node(newValue, currNode);
-		// console.log(this.head);
 	}
 	insertAt(newValue, index) {
 		console.log("insertAt");
@@ -76,22 +70,23 @@ class LinkedList {
 		let currNode = this.head;
 		let prevNode = this.head;
 		for (let i = 0; i < index; i++) {
-			if (currNode.next === null) {
-				return null;
+			if (!currNode.next && i < index - 1) {
+				// Should we refer back to this.insertLast() here since the index is greater than the size of the LinkedList?
+				return this.insertLast(newValue);
 			}
 			prevNode = currNode;
 			currNode = currNode.next;
 		}
 		prevNode.next = new _Node(newValue, currNode);
 	}
-	find(item) {
+	find(nodeValue) {
 		let currNode = this.head;
 		if (!this.head) {
 			return null;
 		}
 
-		while (currNode.value !== item) {
-			if (currNode.next === null) {
+		while (currNode.value !== nodeValue) {
+			if (!currNode.next) {
 				return null;
 			}
 			else {
@@ -100,25 +95,77 @@ class LinkedList {
 		}
 		return currNode;
 	}
-	remove(item) {
+	findPrevious(nodeValue) {
+		let currNode = this.head;
+		let prevNode = this.head;
 		if (!this.head) {
 			return null;
 		}
-		if (this.head.value === item) {
+
+		while (currNode.value !== nodeValue) {
+			if (!currNode.next) {
+				return null;
+			}
+			else {
+				prevNode = currNode;
+				currNode = currNode.next;
+			}
+		}
+		return prevNode;
+	}
+	findLast() {
+		if (!this.head) {
+			return null;
+		}
+		let currNode = this.head;
+		while (currNode.next) {
+			currNode = currNode.next;
+		}
+		return currNode;
+	}
+	remove(nodeValue) {
+		if (!this.head) {
+			return null;
+		}
+		if (this.head.value === nodeValue) {
 			this.head = this.head.next;
 			return;
 		}
 		let prevNode = this.head;
 		let currNode = this.head;
-		while (currNode !== null && currNode.value !== item) {
+		while (currNode !== null && currNode.value !== nodeValue) {
 			prevNode = currNode;
 			currNode = currNode.next;
 		}
-		if (currNode === null) {
-			console.log("item not found!");
-			return false;
+		if (!currNode) {
+			console.log("nodeValue not found!");
+			return "Error: nodeValue not found!";
 		}
 		prevNode.next = currNode.next;
+	}
+	display() {
+		return this.head;
+	}
+	size() {
+		let count;
+		let currNode = this.head;
+		if (!this.head) {
+			return 0;
+		}
+		else {
+			count = 1;
+		}
+		while (currNode && currNode.next) {
+			count++;
+			currNode = currNode.next;
+		}
+		return count;
+	}
+	isEmpty() {
+		if (!this.head) {
+			return true;
+		}
+		else return false;
 	}
 }
 
@@ -142,7 +189,10 @@ function main() {
 	SLL.insertBefore("Toad", "Hotdog");
 	SLL.remove("Boomer");
 
-	console.log(SLL);
+	console.log(SLL.display());
+	console.log(SLL.size());
+	console.log(SLL.isEmpty());
+	console.log(SLL.findLast());
 }
 // Tauhida, Waluigi, whoa, Kat, Jones Apollo, Athena, Helo, Toad, Hotdog, Husker
 main();

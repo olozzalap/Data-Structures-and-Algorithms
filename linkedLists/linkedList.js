@@ -10,33 +10,34 @@ class LinkedList {
 		this.head = null;
 	}
 
-	insertFirst(item) {
-		this.head = new _Node(item, this.head);
+	insertFirst(value) {
+		console.log("insertFirst");
+		this.head = new _Node(value, this.head);
 	}
-	insertLast(item) {
+	insertLast(newValue) {
+		console.log("insertLast");
 		// list is empty
-		console.log(this.head);
 		if (this.head === null) {
-			return this.insertFirst(item);
+			return this.insertFirst(newValue);
 		}
-		let newLastNode = new _Node(item, null);
+		let newLastNode = new _Node(newValue, null);
 		let nodeInList = this.head;
 		while (nodeInList.next !== null) {
-			// console.log(nodeInList);
+			console.log(nodeInList.value);
 			nodeInList = nodeInList.next;
 		}
 		nodeInList.next = newLastNode;
-		console.log(nodeInList, newLastNode);
 	}
-	insertBefore(nodeKey, newItem) {
+	insertBefore(newValue, nodeKey) {
+		console.log("insertBefore");
 		if (!this.head) {
-			return null;
+			return this.insertFirst(newValue);
 		}
-
 		let currNode = this.head;
 		let prevNode = this.head;
-		while(currNode.item !== nodeKey) {
+		while(currNode.value !== nodeKey) {
 			if (currNode.next === null) {
+				console.log(currNode);
 				return null;
 			}
 			else {
@@ -44,17 +45,19 @@ class LinkedList {
 				currNode = currNode.next;
 			}
 		}
-		prevNode.next = new _Node(newItem, currNode);
+		prevNode.next = new _Node(newValue, currNode);
+		// console.log(this.head);
 	}
-	insertAfter(nodeKey, newItem) {
+	insertAfter(newValue, nodeKey) {
+		console.log("insertAfter");
 		if (!this.head) {
-			return null;
+			return this.insertFirst(newValue);
 		}
-
 		let currNode = this.head;
 		let prevNode = this.head;
-		while(prevNode.item !== nodeKey) {
+		while(prevNode.value !== nodeKey) {
 			if (prevNode.next === null) {
+				console.log(currNode);
 				return null;
 			}
 			else {
@@ -62,11 +65,13 @@ class LinkedList {
 				currNode = currNode.next;
 			}
 		}
-		prevNode.next = new _Node(newItem, currNode);
+		prevNode.next = new _Node(newValue, currNode);
+		// console.log(this.head);
 	}
-	insertAt(index, item) {
+	insertAt(newValue, index) {
+		console.log("insertAt");
 		if (!this.head) {
-			return null;
+			return this.insertFirst(newValue);
 		}
 		let currNode = this.head;
 		let prevNode = this.head;
@@ -77,7 +82,7 @@ class LinkedList {
 			prevNode = currNode;
 			currNode = currNode.next;
 		}
-		prevNode.next = new _Node(item, currNode);
+		prevNode.next = new _Node(newValue, currNode);
 	}
 	find(item) {
 		let currNode = this.head;
@@ -121,14 +126,23 @@ class LinkedList {
 function main() {
 	SLL = new LinkedList()
 
+	SLL.insertAfter("whoa", null);
 	SLL.insertLast("Apollo");
 	SLL.insertLast("Boomer");
+	SLL.insertFirst("Waluigi");
 	SLL.insertLast("Helo");
+	SLL.insertAt("Jones", 2);
 	SLL.insertLast("Husker");
 	SLL.insertLast("Starbuck");
-
 	SLL.insertFirst("Tauhida");
-	SLL.remove("squirrel");
-	console.log(JSON.stringify(SLL));
+	SLL.insertBefore("Athena", "Boomer");
+	SLL.remove("Starbuck");
+	SLL.insertAfter("Hotdog", "Helo");
+	SLL.insertAt("Kat", 3);
+	SLL.insertBefore("Toad", "Hotdog");
+	SLL.remove("Boomer");
+
+	console.log(SLL);
 }
+// Tauhida, Waluigi, whoa, Kat, Jones Apollo, Athena, Helo, Toad, Hotdog, Husker
 main();

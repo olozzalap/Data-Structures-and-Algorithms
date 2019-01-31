@@ -1,9 +1,4 @@
-class _Node {
-    constructor(value, next) {
-        this.value=value;
-        this.next=next;
-    }
-}
+const _Node = require('./_node.js');
 
 class LinkedList {
 	constructor() {

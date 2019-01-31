@@ -123,6 +123,30 @@ class LinkedList {
 		}
 		return currNode;
 	}
+	findFromLast(lastOffset) {
+		if (!this.head) {
+			return null;
+		}
+		let currNode = this.head;
+		let nodes = [currNode.value];
+		while (currNode.next) {
+			currNode = currNode.next;
+			nodes.push(currNode.value);
+		}
+		return nodes[nodes.length - 1 - lastOffset];
+	}
+	findMiddle() {
+		if (!this.head) {
+			return null;
+		}
+		let currNode = this.head;
+		let nodes = [currNode.value];
+		while (currNode.next) {
+			currNode = currNode.next;
+			nodes.push(currNode.value);
+		}
+		return nodes[Math.floor((nodes.length - 1) / 2)];	
+	}
 	remove(nodeValue) {
 		if (!this.head) {
 			return null;
@@ -167,21 +191,37 @@ class LinkedList {
 		}
 		else return false;
 	}
+	isCyclical() {
+		if (!this.head) {
+			return false;
+		}
+		let currNode = this.head;
+		let nodes = [currNode];
+		while (currNode.next) {
+			console.log(currNode.value);
+			if (nodes.indexOf(currNode.next) >= 0) {
+				return "Yes this LL is cyclical, starting from: " + currNode.value;
+			}
+			currNode = currNode.next;
+			nodes.push(currNode);
+		}
+		return false;
+	}
 	reverse() {
 		// if no first or second item
 		if (!this.head || !this.head.next) {
-			return null
+			return this.head;
 		}
 		// if only two items
 		else if (!this.head.next.next) {
 			this.head.next.next = this.head;
 			this.head = this.head.next;
 			this.head.next.next = null;
+			return this.head;
 		}
 		// original is needed so we can keep that updated to point to newFirstNodeNext
 		let originalFirstNode = this.head;
 		while(originalFirstNode.next) {
-			console.log(originalFirstNode.value);
 			this.swapNodes(originalFirstNode.next, originalFirstNode, originalFirstNode.next.next);
 			// Effectively iterates through the list as originalFirstNode is pushed further right, currNode will always be the 
 		}
@@ -226,11 +266,14 @@ function main() {
 	SLL.insertBefore("Toad", "Hotdog");
 	SLL.remove("Boomer");
 
-	// console.log(SLL.display()); // Tauhida, Waluigi, whoa, Kat, Jones, Apollo, Athena, Helo, Toad, Hotdog, Husker
+	console.log(SLL.display()); // Tauhida, Waluigi, whoa, Kat, Jones, Apollo, Athena, Helo, Toad, Hotdog, Husker
 	// console.log(SLL.size()); // 11
 	// console.log(SLL.isEmpty()); // false
 	// console.log(SLL.findLast()); // Husker
-	console.log(SLL.reverse()); // Husker, Hotdog, Toad, Helo, Athena, Apollo, Jones, Kat, whoa, Waluigi, Tauhida
+	// console.log(SLL.reverse()); // Husker, Hotdog, Toad, Helo, Athena, Apollo, Jones, Kat, whoa, Waluigi, Tauhida
+	// console.log(SLL.findMiddle()); // Apollo
+	// SLL.head.next.next.next.next.next.next.next = SLL.head; // manually forces a cycles on the list
+	// console.log(SLL.isCyclical()); true (be sure to uncomment the above line)
 }
 main();
 

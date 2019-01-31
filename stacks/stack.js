@@ -6,12 +6,19 @@ class Stack {
 	}
 
 	push(data) {
+		if (!this.top) {
+			this.top = new _Node(data, null);
+			return this.top;
+		}
 		let node = new _Node(data, this.top);
 		this.top = node;
 	}
 	pop() {
-		let top = this.top;
+		if (!this.top) {
+			return null;
+		}
+		let node = this.top;
 		this.top = this.top.next;
-		return top;
+		return node.data;
 	}
 }

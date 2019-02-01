@@ -27,7 +27,9 @@ class Queue {
 		}
 		const node = this.first;
 		this.first = node.prev;
-		this.first.next = null;
+		if (this.first) {
+			this.first.next = null;
+		}
 		if (node === this.last) {
 			this.last = null;
 		}
@@ -44,19 +46,17 @@ class Queue {
 	}
 }
 
-
-const queue = new Queue();
-queue.enqueue("Kirk");
-queue.enqueue("Spock");
-queue.enqueue("Uhura");
-queue.enqueue("Sulu");
-queue.enqueue("Checkov");
+// const queue = new Queue();
+// queue.enqueue("Kirk");
+// queue.enqueue("Spock");
+// queue.enqueue("Uhura");
+// queue.enqueue("Sulu");
+// queue.enqueue("Checkov");
 // console.log(queue.peek());
 // console.log(queue.peekLast());
-console.log(queue.dequeue());
-console.log(queue.dequeue());
-console.log(queue.dequeue());
-
+// console.log(queue.dequeue());
+// console.log(queue.dequeue());
+// console.log(queue.dequeue());
 
 class QueueViaStacks {
 	constructor() {
@@ -69,7 +69,6 @@ class QueueViaStacks {
 			this.nextOut.push(data)
 		}
 		else {
-			const originalValues = Object.assign( Object.create( Object.getPrototypeOf(this.values)), this.values);
 			while (this.values.top) {
 				this.nextOut.push(this.values.pop());
 			}
@@ -95,15 +94,54 @@ class QueueViaStacks {
 	}
 }
 
-const queueStacks = new QueueViaStacks();
-queueStacks.enqueue(1);
-queueStacks.enqueue(2);
-queueStacks.enqueue(3);
-queueStacks.enqueue(4);
-console.log(queueStacks.display());
-console.log(queueStacks.dequeue());
-console.log(queueStacks.display());
-console.log(queueStacks.dequeue());
-console.log(queueStacks.display());
-console.log(queueStacks.dequeue());
-console.log(queueStacks.dequeue());
+// const queueStacks = new QueueViaStacks();
+// queueStacks.enqueue(1);
+// queueStacks.enqueue(2);
+// queueStacks.enqueue(3);
+// queueStacks.enqueue(4);
+// console.log(queueStacks.display());
+// console.log(queueStacks.dequeue());
+// console.log(queueStacks.display());
+// console.log(queueStacks.dequeue());
+// console.log(queueStacks.display());
+// console.log(queueStacks.dequeue());
+// console.log(queueStacks.dequeue());
+
+class PairingQueues {
+	constructor(firstQueueName, secondQueueName) {
+		this[firstQueueName] = new Queue();
+		this[secondQueueName] = new Queue();
+
+		this.firstQueue = firstQueueName;
+		this.secondQueue = secondQueueName;
+	}
+
+	enqueue(data, queueName) {
+		if (!this[queueName]) {
+			return "That queue doesn't exist!";
+		}
+		this[queueName].enqueue(data);
+		return this.checkPairs();
+	}
+	checkPairs() {
+		if (this[this.firstQueue].first && this[this.secondQueue].first) {
+			console.log(this.firstQueue, this[this.firstQueue].first);
+			console.log(this.secondQueue, this[this.secondQueue].first);
+			let pairSuccessText = "Paired " + this.firstQueue + ": " + this[this.firstQueue].dequeue() + " with " + this.secondQueue + ": " + this[this.secondQueue].dequeue();
+			return pairSuccessText;
+		}
+		else {
+			console.log(this.firstQueue, this[this.firstQueue].first);
+			console.log(this.secondQueue, this[this.secondQueue].first);
+			return "No one paired with this entry!";
+		}
+	}
+}
+
+// let pairs = new PairingQueues("female dancer", "male dancer");
+// console.log(pairs.enqueue("John", "male dancer"));
+// console.log(pairs.enqueue("Arnold", "male dancer"));
+// console.log(pairs.enqueue("Esmerelda", "female dancer"));
+// console.log(pairs.enqueue("Johanes", "male dancer"));
+// console.log(pairs.enqueue("Lizzo", "female dancer"));
+console.log(pairs.enqueue("Sophia", "female dancer"));

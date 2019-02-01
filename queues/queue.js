@@ -144,4 +144,51 @@ class PairingQueues {
 // console.log(pairs.enqueue("Esmerelda", "female dancer"));
 // console.log(pairs.enqueue("Johanes", "male dancer"));
 // console.log(pairs.enqueue("Lizzo", "female dancer"));
-console.log(pairs.enqueue("Sophia", "female dancer"));
+// console.log(pairs.enqueue("Sophia", "female dancer"));
+
+class OphidianBank {
+	// invalidChance must be a decimal representing the probability of any node being invalid and needing a requeue
+	constructor(invalidChance) {
+		this.line = new Queue();
+		this.invalidChance = invalidChance;
+	}
+	enqueue(name) {
+		let isValid = (Math.random() > this.invalidChance) ? true : false;
+		this.line.enqueue({
+			name,
+			isValid
+		})
+		return this.line.first;
+	}
+	dequeue() {
+		const node = this.line.first;
+		if (!node) {
+			return null;
+		}
+		this.line.dequeue();
+		console.log(node.data);
+		if (!node.data.isValid) {
+			this.enqueue(node.data.name);
+		}
+		return this.line.first;
+	}
+}
+
+// let bank = new OphidianBank(.33);
+// console.log(bank.enqueue("1"));
+// console.log(bank.enqueue("2"));
+// console.log(bank.enqueue("3"));
+// console.log(bank.dequeue());
+// console.log(bank.enqueue("4"));
+// console.log(bank.dequeue());
+// console.log(bank.dequeue());
+// console.log(bank.enqueue("5"));
+// console.log(bank.dequeue());
+// console.log(bank.enqueue("6"));
+// console.log(bank.enqueue("7"));
+// console.log(bank.dequeue());
+// console.log(bank.enqueue("8"));
+// console.log(bank.dequeue());
+// console.log(bank.dequeue());
+// console.log(bank.enqueue("9"));
+// console.log(bank.dequeue());

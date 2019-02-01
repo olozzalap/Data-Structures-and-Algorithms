@@ -202,4 +202,6 @@ unsortedStack.push(7);
 unsortedStack.push(2);
 unsortedStack.push(10);
 unsortedStack.push(5);
-console.log(sortStackAsc(unsortedStack)); // 1, 1, 2, 3, 4, 5, 7, 7, 8, 9, 10, 15
+// console.log(sortStackAsc(unsortedStack)); // 1, 1, 2, 3, 4, 5, 7, 7, 8, 9, 10, 15
+
+module.exports = Stack;

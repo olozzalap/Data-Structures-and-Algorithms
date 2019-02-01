@@ -64,9 +64,80 @@ function is_palindrome(s) {
     return true;
 }
 
-// true, true, true
-console.log(is_palindrome("dad"));
-console.log(is_palindrome("A man, a plan, a canal: Panama"));
-console.log(is_palindrome("1001"));
-console.log(is_palindrome("Tauhida"));
-console.log(stack.peek());
+// console.log(is_palindrome("dad")); // true
+// console.log(is_palindrome("A man, a plan, a canal: Panama")); //true
+// console.log(is_palindrome("1001")); // true
+// console.log(is_palindrome("Tauhida")); //false
+
+// Parses for matching (), [], {}, '' and "". Returns true if the str is all valid and returns the {index, char} if error
+function checkMatchingBrackets(str) {
+	const brackets = {
+		openParentheses: "(",
+		closeParentheses: ")",
+		openBrackets: "[",
+		closeBrackets: "]",
+		openBraces: "{",
+		closeBraces: "}"
+	}
+	let chars = str.split("");
+	let bracketsStack = new Stack();
+	let quotesStack = new Stack();
+	let inSingleQuote = false;
+	let inDoubleQuote = false;
+	for (let i = 0; i < chars.length; i++) {
+		if (chars[i] === "'") {
+			inSingleQuote = !inSingleQuote;
+		}
+		else if (chars[i] === '"') {
+			inDoubleQuote = !inDoubleQuote;
+		}
+		// console.log(inSingleQuote, inDoubleQuote);
+
+		if (!inSingleQuote && !inDoubleQuote) {
+			if (chars[i] === brackets.openParentheses) {
+				bracketsStack.push({index: i, char: chars[i]})
+			}
+			else if (chars[i] === brackets.closeParentheses) {
+				let lastOpen = bracketsStack.pop();
+				if (lastOpen === null || lastOpen.char !== brackets.openParentheses) {
+					return lastOpen || {index: i, char: chars[i]};
+				}
+			}
+			else if (chars[i] === brackets.openBrackets) {
+				bracketsStack.push({index: i, char: chars[i]})
+			}
+			else if (chars[i] === brackets.closeBrackets) {
+				let lastOpen = bracketsStack.pop();
+				if (lastOpen === null || lastOpen.char !== brackets.openBrackets) {
+					return lastOpen || {index: i, char: chars[i]};
+				}
+			}
+			else if (chars[i] === brackets.openBraces) {
+				bracketsStack.push({index: i, char: chars[i]})
+			}
+			else if (chars[i] === brackets.closeBraces) {
+				let lastOpen = bracketsStack.pop();
+				if (lastOpen === null || lastOpen.char !== brackets.openBraces) {
+					return lastOpen || {index: i, char: chars[i]};
+				}
+			}
+		}
+	}
+	let lastOpen = bracketsStack.pop();
+	if (lastOpen !== null) {
+		console.log("open bracket remained unclosed!");
+		return lastOpen;
+	}
+	return true;
+}
+
+// console.log(checkMatchingBrackets("2133()(adnad(awdad8ad(adand)adnwad)ankawd)")); // true 
+// console.log(checkMatchingBrackets("61(()")); // { index: 2, char: '(' }
+// console.log(checkMatchingBrackets("61)(()")); // { index: 2, char: ')' }
+// console.log(checkMatchingBrackets("{oye: [1, 2, 3], a: (1 + 2+ (1, 2,3 )), c: {1: 1, 2: blergh}, d: ()}")); // true
+// console.log(checkMatchingBrackets("{oye: [1, 2, 3], a: ((1 + 2+ (1, 2,3 )), c: {1: 1, 2: blergh}, d: ()}")); // { index: 20, char: '(' }
+// console.log(checkMatchingBrackets("{oye: [1, 2, 3], a: (1 + 2+ (1, 2,3 )), c: {1: 1, 2: blergh}}, d: ()}")); // { index: 68, char: '}' }
+// console.log(checkMatchingBrackets("61{('(}[{}[(0(0)(0()()()}}{}{)(][][)(}{)(][][')[ohno]}")); // true
+// console.log(checkMatchingBrackets("61{(('}[{}[(0(0)(0()()()}}{}{)(][][)(}{)(][][')[ohno]}")); // { index: 3, char: '(' }
+// console.log(checkMatchingBrackets('[{a: "}{)(][}{)(}{{}{HOTFRESHCODE", b: ({1:[a, b, c]})}]')); // true
+// console.log(checkMatchingBrackets('[{a: }"{)(][}{)(}{{}{HOTFRESHCODE", b: ({1:[a, b, c]})}]')); // { index: 0, char: '[' }
